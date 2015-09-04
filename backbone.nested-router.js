@@ -65,16 +65,14 @@
       var start = args.length - 1;
       return function() {
         var i = start;
+        arguments = _.values(arguments);
         var result = args[start].apply(this, arguments);
         while (i--) {
           if (result) {
-            arguments  = _.values(arguments);
             arguments.pop();
             arguments.push(result);
             arguments.push(null);
             arguments = _.flatten(arguments);
-          } else {
-            arguments = _.values(arguments);
           }
           result = args[i].apply(this, arguments);
         }
