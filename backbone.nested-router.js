@@ -42,7 +42,7 @@
       } else if (hasNesting) {
         var chain = name.split('.');
         chain.forEach(function(name, i){
-          callback = !callback ? this[name] : this.compose(this[chain[i]], callback);
+          callback = !callback ? this[name] : this.composeNestedRoute(this[chain[i]], callback);
         }, this);
       }
       if (!callback) callback = this[name];
@@ -60,7 +60,7 @@
     },
 
     // Modified (Underscore.js 1.8.3) http://underscorejs.org/#compose
-    compose: function() {
+    composeNestedRoute: function() {
       var args = arguments;
       var start = args.length - 1;
       return function() {
