@@ -15,7 +15,6 @@ Using dot syntax within callback names, we're now able to chain our callbacks, e
 ```js
 Backbone.Router.extend({
   routes: {
-    'posts': 'posts',
     'posts/new': 'posts.new'
   },
   posts: function () {
