@@ -33,6 +33,7 @@
 
   Backbone.Router = Backbone.Router.extend({
 
+    // Overriding route method to account for nested routes
     route: function(route, name, callback) {
       var hasNesting = name.includes('.');
       if (!_.isRegExp(route)) route = this._routeToRegExp(route);
@@ -66,13 +67,17 @@
       return function() {
         var i = start;
         var _args = _.values(arguments);
-        var result = args[start].apply(this, _.last(_args));
+        var result = args[start].apply(this, [null]);
         while (i--) {
           if (result) {
-            _args.splice(_args.length - 1, 0, result);
-            _args = _.flatten(_args);
+            var newArr = _.values(_args);
+            newArr.splice(1, 0, result);
+            newArr = _.flatten(newArr);
+            result = args[i].apply(this, newArr);
+          } else {
+            result = args[i].apply(this, _.values(_args).slice(0,1));
           }
-          result = args[i].apply(this, [_args.shift()]);
+          _args.shift();
         }
         return result;
       };
