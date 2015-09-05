@@ -103,7 +103,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Because callback chains reference unique methods on the router, two chains containing the same string will execute the same callback.
+Because callback chains reference methods names on the router, two chains containing the same string will execute the same callback.
 ```js
 Backbone.Router.extend({
   routes: {
