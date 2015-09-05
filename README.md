@@ -120,3 +120,46 @@ Backbone.Router.extend({
   }
 });
 ```
+#### Worth Mentioning
+
+Because callback chains reference unique methods on the router, two chains containing the same string will execute the same callback.
+
+```js
+Backbone.Router.extend({
+  routes: {
+    'posts/new': 'posts.new',
+    'comments/new': 'comments.new'
+  },
+  posts: function () {
+    console.log('posts');
+  },
+  comments: function () {
+    console.log('comments');
+  },
+  new: function () {
+    console.log('posts.new');
+    console.log('comments.new');
+  }
+});
+```
+We can avoid this simply by being more descriptive when naming our callbacks.
+```js
+Backbone.Router.extend({
+  routes: {
+    'posts/new': 'posts.newPost',
+    'comments/new': 'comments.newComment'
+  },
+  posts: function () {
+    console.log('posts');
+  },
+  newPost: function () {
+    console.log('posts.newPost');
+  }
+  comments: function () {
+    console.log('comments');
+  },
+  newComment: function () {
+    console.log('comments.newComment');
+  }
+});
+```
