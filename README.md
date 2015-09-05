@@ -38,11 +38,11 @@ Backbone.Router.extend({
   posts: function () {
     console.log('posts');
     console.log(arguments); // [null]
-    return "somestring";
+    return 'somestring';
   },
   new: function () {
     console.log('posts.new');
-    console.log(arguments); // ["somestring", null]
+    console.log(arguments); // ['somestring', null]
   }
 });
 ```
@@ -56,11 +56,11 @@ Backbone.Router.extend({
   posts: function () {
     console.log('posts');
     console.log(arguments); // [null]
-    return ["somestring", {foo: "bar"}, true];
+    return ['somestring', {foo: 'bar'}, true];
   },
   new: function () {
     console.log('posts.new');
-    console.log(arguments); // ["somestring", {foo: "bar"}, true, null]
+    console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
   }
 });
 ```
@@ -74,11 +74,11 @@ Backbone.Router.extend({
   posts: function () {
     console.log('posts');
     console.log(arguments); // [null]
-    return ["somestring", {foo: "bar"}, true];
+    return ['somestring', {foo: 'bar'}, true];
   },
   post: function (post_id) {
     console.log('posts.post');
-    console.log(arguments); // [post_id, "somestring", {foo: "bar"}, true, null]
+    console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
   }
 });
 ```
@@ -90,11 +90,11 @@ Backbone.Router.extend({
   },
   post: function (post_id) {
     console.log('post');
-    console.log(arguments); // [postId, null]
+    console.log(arguments); // [post_id, null]
   },
   comment: function (comment_id) {
     console.log('post.comment');
-    console.log(arguments); // [commentId, null]
+    console.log(arguments); // [comment_id, null]
   }
 });
 ```
@@ -104,19 +104,19 @@ In this case, we bracket that callback.
 ```js
 Backbone.Router.extend({
   routes: {
-    'post/:post_id/comments/:id': 'post.[comments].comment'
+    'post/:post_id/comments/:comment_id': 'post.[comments].comment'
   },
-  post: function (postId) {
+  post: function (post_id) {
     console.log('post.comments');
-    console.log(arguments); // [postId, null]
+    console.log(arguments); // [post_id, null]
   },
   comments: function () {
     console.log('post.comments');
     console.log(arguments); // [null]
   },
-  comment: function (commentId) {
+  comment: function (comment_id) {
     console.log('post.comments.comment');
-    console.log(arguments); // [id, null]
+    console.log(arguments); // [comment_id, null]
   }
 });
 ```
