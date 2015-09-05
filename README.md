@@ -10,9 +10,9 @@ Allowing for dot syntax to be used in callback names, you're now able to chain y
 
 If a route returns an argument, the argument is passed to the route that follows.
 
-If this route is already being passed arguments based on the syntax of the route fragment, the returned argument will be included at the end of the next route's arguments list.
+If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be included at the end of the following route's arguments list.
 
-If your route returns an array of arguments, these arguments will be unpacked and passed as additional paramters at the end of the next route's arguments list.
+If a route returns an array of arguments, these arguments will be unpacked and passed as additional paramters at the end of the following route's arguments list.
 
 #### Example Usage
 
