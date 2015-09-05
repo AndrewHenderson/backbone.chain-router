@@ -83,7 +83,8 @@
           } else {
             var arg = _args[0];
             newArgs = [arg];
-            if (!_.isNull(arg)) newArgs.push(null); // don't push two nulls
+            if (_.isUndefined(newArgs[0])) newArgs = [null];
+            if (!_.isNull(newArgs[0])) newArgs.push(null); // don't push two nulls
             result = args[i].apply(this, newArgs);
           }
           _args.shift();
