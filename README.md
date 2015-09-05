@@ -82,14 +82,14 @@ Backbone.Router.extend({
   }
 });
 ```
-Chained routes with fragment parameters will be passed their fragment parameter only.
+Chained routes with fragment parameters will be passed their assigned parameter.
 ```js
 Backbone.Router.extend({
   routes: {
-    'post/:post_id/comment/:id': 'post.comment'
+    'post/:post_id/comment/:comment_id': 'post.comment'
   },
   post: function (postId) {
-    console.log('post.comments');
+    console.log('post');
     console.log(arguments); // [postId, null]
   },
   comment: function (commentId) {
@@ -98,7 +98,9 @@ Backbone.Router.extend({
   }
 });
 ```
-Sometimes, we may want to execute routes in the order which are not meant to be passed route fragment parameters. In this case, we bracket this particular callback.
+Sometimes, we may want to execute routes in the order which are not meant to be passed route fragment parameters.
+
+In this case, we bracket the particular callback.
 ```js
 Backbone.Router.extend({
   routes: {
