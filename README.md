@@ -90,6 +90,19 @@ In this case, we bracket that callback.
 ```js
 Backbone.Router.extend({
   routes: {
+    'posts/:post_id': '[posts].post'
+  },
+  posts: function () {
+    console.log(arguments); // [null]
+  },
+  post: function (post_id) {
+    console.log(arguments); // [post_id, null]
+  }
+});
+```
+```js
+Backbone.Router.extend({
+  routes: {
     'post/:post_id/comments/:comment_id': 'post.[comments].comment'
   },
   post: function (post_id) {
@@ -100,19 +113,6 @@ Backbone.Router.extend({
   },
   comment: function (comment_id) {
     console.log(arguments); // [comment_id, null]
-  }
-});
-```
-```js
-Backbone.Router.extend({
-  routes: {
-    'posts/:post_id': '[posts].post'
-  },
-  posts: function () {
-    console.log(arguments); // [null]
-  },
-  post: function (post_id) {
-    console.log(arguments); // [post_id, null]
   }
 });
 ```
