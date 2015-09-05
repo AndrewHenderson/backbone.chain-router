@@ -4,7 +4,7 @@ Extend Backbone's Router to allow for nested routes.
 
 ### What problems does this library solve?
 
-Currently, Backbone's Router does not allow for a route to execute more than one callback. This library allows you to do just that.
+Currently, Backbone's Router does not allow for a route to execute more than one callback. This library let's you do just that.
 
 Allowing for dot syntax to be used in callback names, you're now able to chain your callbacks, executing one after the other.
 
