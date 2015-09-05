@@ -133,7 +133,7 @@ Backbone.Router.extend({
   },
   newPost: function () {
     console.log('posts.newPost');
-  }
+  },
   comments: function () {
     console.log('comments');
   },
