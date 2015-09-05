@@ -103,6 +103,19 @@ Backbone.Router.extend({
   }
 });
 ```
+```js
+Backbone.Router.extend({
+  routes: {
+    'posts/:post_id': '[posts].post'
+  },
+  posts: function () {
+    console.log(arguments); // [null]
+  },
+  post: function (post_id) {
+    console.log(arguments); // [post_id, null]
+  }
+});
+```
 Because callback chains reference methods names on the router, two chains containing the same string will execute the same callback.
 ```js
 Backbone.Router.extend({
