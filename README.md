@@ -54,13 +54,13 @@ new: function () {
 If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the next route's arguments list.
 ```js
 routes: {
-  'posts/:post_id': 'posts.post'
+  'post/:post_id': 'post.after'
 },
-posts: function (post_id) {
+post: function (post_id) {
   console.log(arguments); // [post_id, null]
   return ['somestring', {foo: 'bar'}, true];
 },
-post: function () {
+after: function () {
   console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
 }
 ```
@@ -76,7 +76,7 @@ comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
 }
 ```
-Sometimes, we may want to include an additional route in the chain which is not intended to be passed parameters defined in the route fragment.
+Sometimes, we may want to include an additional route in the middle of the chain which is not intended to be passed parameters defined within the route fragment.
 
 In this case, we bracket that callback.
 ```js
@@ -98,13 +98,13 @@ post: function (post_id) {
   console.log(arguments); // [post_id, null]
 },
 comments: function () {
-  console.log(arguments); // [null] Was not passed comment_id
+  console.log(arguments); // [null] was not passed comment_id
 },
 comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
 }
 ```
-Because callback chains reference methods names on the router, two chains containing the same string will execute the same callback.
+Because callback chains reference method names on the router, two chains containing the same string will execute the same callback.
 ```js
 routes: {
   'posts/new': 'posts.new',
