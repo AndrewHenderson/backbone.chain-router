@@ -96,7 +96,7 @@
               newArgs = _.initial(newArgs);
             }
             newArgs = [];
-            newArgs.push(result);
+            newArgs.push(_.initial(_args), result);
             newArgs = _.flatten(newArgs);
             newArgs.push(null);
             result = args[i].apply(this, newArgs);

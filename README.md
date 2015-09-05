@@ -98,7 +98,7 @@ post: function (post_id) {
   console.log(arguments); // [post_id, null]
 },
 comments: function () {
-  console.log(arguments); // [null]
+  console.log(arguments); // [null] Was not passed comment_id
 },
 comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
@@ -130,12 +130,12 @@ posts: function () {
   console.log('posts');
 },
 newPost: function () {
-  console.log('posts.newPost');
+  console.log('newPost');
 },
 comments: function () {
   console.log('comments');
 },
 newComment: function () {
-  console.log('comments.newComment');
+  console.log('newComment');
 }
 ```
