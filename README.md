@@ -53,9 +53,9 @@ Backbone.Router.extend({
     console.log(arguments); // [null]
   },
 
-  comment: function () {
+  comment: function (id) {
     console.log('post.comments.comment');
-    console.log(arguments);
+    console.log(arguments); // [null, id]
   }
 });
 ```
