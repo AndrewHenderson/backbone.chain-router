@@ -32,12 +32,10 @@ Backbone.Router.extend({
     'posts/new': 'posts.new'
   },
   posts: function () {
-    console.log('posts');
     console.log(arguments); // [null]
     return 'somestring';
   },
   new: function () {
-    console.log('new');
     console.log(arguments); // ['somestring', null]
   }
 });
@@ -64,12 +62,10 @@ Backbone.Router.extend({
     'posts/:post_id': 'posts.post'
   },
   posts: function () {
-    console.log('posts');
     console.log(arguments); // [null]
     return ['somestring', {foo: 'bar'}, true];
   },
   post: function (post_id) {
-    console.log('post');
     console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
   }
 });
@@ -81,11 +77,9 @@ Backbone.Router.extend({
     'post/:post_id/comment/:comment_id': 'post.comment'
   },
   post: function (post_id) {
-    console.log('post');
     console.log(arguments); // [post_id, null]
   },
   comment: function (comment_id) {
-    console.log('post.comment');
     console.log(arguments); // [comment_id, null]
   }
 });
@@ -99,15 +93,12 @@ Backbone.Router.extend({
     'post/:post_id/comments/:comment_id': 'post.[comments].comment'
   },
   post: function (post_id) {
-    console.log('post.comments');
     console.log(arguments); // [post_id, null]
   },
   comments: function () {
-    console.log('post.comments');
     console.log(arguments); // [null]
   },
   comment: function (comment_id) {
-    console.log('post.comments.comment');
     console.log(arguments); // [comment_id, null]
   }
 });
