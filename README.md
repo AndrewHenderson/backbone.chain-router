@@ -69,7 +69,7 @@ If the route that follows is already being passed arguments, say based on the sy
 Backbone.Router.extend({
   routes: {
     'posts': 'posts',
-    'post/:post_id': 'posts.post'
+    'posts/:post_id': 'posts.post'
   },
   posts: function () {
     console.log('posts');
