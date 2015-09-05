@@ -117,8 +117,7 @@ Backbone.Router.extend({
     console.log('comments');
   },
   new: function () {
-    console.log('posts.new');
-    console.log('comments.new');
+    console.log('posts.new & comments.new');
   }
 });
 ```
