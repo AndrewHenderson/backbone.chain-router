@@ -21,7 +21,7 @@ Backbone.Router.extend({
     console.log('posts'); // called first
   },
   new: function () {
-    console.log('posts.new'); // called second
+    console.log('new'); // called second
   }
 });
 ```
