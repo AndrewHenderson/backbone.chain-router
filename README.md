@@ -30,27 +30,27 @@ Backbone.Router.extend({
 
   posts: function () {
     console.log('posts');
-    console.log(arguments);
+    console.log(arguments); // [null]
   },
 
   new: function () {
     console.log('posts.new');
-    console.log(arguments);
+    console.log(arguments); // [null]
   },
 
-  post: function () {
+  post: function (id) {
     console.log('post');
-    console.log(arguments);
+    console.log(arguments); // [id, null]
   },
 
-  edit: function () {
+  edit: function (id) {
     console.log('post.edit');
-    console.log(arguments);
+    console.log(arguments); // [id, null]
   },
 
   comments: function () {
     console.log('post.comments');
-    console.log(arguments);
+    console.log(arguments); // [null]
   },
 
   comment: function () {
