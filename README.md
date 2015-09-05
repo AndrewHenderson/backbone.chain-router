@@ -37,7 +37,7 @@ Backbone.Router.extend({
     return 'somestring';
   },
   new: function () {
-    console.log('posts.new');
+    console.log('new');
     console.log(arguments); // ['somestring', null]
   }
 });
@@ -49,12 +49,10 @@ Backbone.Router.extend({
     'posts/new': 'posts.new'
   },
   posts: function () {
-    console.log('posts');
     console.log(arguments); // [null]
     return ['somestring', {foo: 'bar'}, true];
   },
   new: function () {
-    console.log('posts.new');
     console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
   }
 });
@@ -71,7 +69,7 @@ Backbone.Router.extend({
     return ['somestring', {foo: 'bar'}, true];
   },
   post: function (post_id) {
-    console.log('posts.post');
+    console.log('post');
     console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
   }
 });
