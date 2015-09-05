@@ -82,24 +82,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Routes parameters only pass paramters to the corresponding route callback. Following callbacks will not be passed parameters designated to preceding routes.
-```js
-Backbone.Router.extend({
-  routes: {
-    'post/:post_id': 'post',
-    'post/:post_id/edit': 'post.edit',
-  },
-  post: function (id) {
-    console.log('post');
-    console.log(arguments); // [id, null]
-  },
-  edit: function (id) {
-    console.log('post.edit');
-    console.log(arguments); // [null]
-  }
-});
-```
-Chained routes with parameters will each be passed their respective parameter only.
+Chained routes with fragment parameters will be passed their fragment parameter only.
 ```js
 Backbone.Router.extend({
   routes: {
@@ -115,7 +98,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Sometimes, you may want to call routes in the middle of the chain which are not meant to intercept the parameters in the route fragments. In this case, you must bracket the callback.
+Sometimes, we may want to execute routes in the order which are not meant to be passed route fragment parameters. In this case, we bracket this particular callback.
 ```js
 Backbone.Router.extend({
   routes: {
