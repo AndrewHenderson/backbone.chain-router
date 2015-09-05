@@ -41,15 +41,15 @@
         name = '';
       } else if (hasNesting) {
         var chain = name.split('.');
-        chain.forEach(function(name, i){
-          callback = !callback ? this[name] : this.composeNestedRoute(this[chain[i]], callback);
-        }, this);
+        var callbacks = chain.map(function(name, i){
+          return this[chain[i]];
+        }, this).reverse();
+        callback = this.composeNestedRoute.apply(this, callbacks);
       }
       if (!callback) callback = this[name];
       var router = this;
       Backbone.history.route(route, function(fragment) {
         var args = router._extractParameters(route, fragment);
-        //if (hasNesting) callback = callback.bind(router, args);
         if (router.execute(callback, args, name) !== false) {
           router.trigger.apply(router, ['route:' + name].concat(args));
           router.trigger('route', name, args);
@@ -65,20 +65,17 @@
       var start = args.length - 1;
       return function() {
         var i = start;
-        arguments = _.values(arguments);
-        var result = args[start].apply(this, arguments);
+        var _args = _.values(arguments);
+        var result = args[start].apply(this, _.last(_args));
         while (i--) {
           if (result) {
-            arguments.pop();
-            arguments.push(result);
-            arguments.push(null);
-            arguments = _.flatten(arguments);
+            _args.splice(0, _.args.length - 1, result);
+            _args = _.flatten(_args);
           }
-          result = args[i].apply(this, arguments);
+          result = args[i].apply(this, [_args.shift()]);
         }
         return result;
       };
     }
-
   });
 }));
