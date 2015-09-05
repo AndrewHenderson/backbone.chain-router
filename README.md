@@ -65,7 +65,7 @@ Backbone.Router.extend({
     console.log(arguments); // [post_id, null]
     return ['somestring', {foo: 'bar'}, true];
   },
-  post: function (post_id) {
+  post: function () {
     console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
   }
 });
