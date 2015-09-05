@@ -43,7 +43,7 @@
       } else if (hasNesting) {
         var chain = name.split('.');
         // create an array of callback functions
-        // must be reversed
+        // must be reversed so routes execute parent then child
         var callbacks = chain.map(function(name, i){
           return this[chain[i]];
         }, this).reverse();
@@ -62,26 +62,29 @@
       return this;
     },
 
-    // Modified (Underscore.js 1.8.3) http://underscorejs.org/#compose
+    // Modification of Underscore's compose
+    // (Underscore.js 1.8.3) http://underscorejs.org/#compose
     composeNestedRoute: function() {
+      // arguments should be an array of callback functions
       var args = arguments;
       var start = args.length - 1;
       return function() {
         var i = start;
         var _args = _.values(arguments);
         var result = args[start].apply(this, [null]);
+        var newArgs;
         while (i--) {
           if (result) {
-            var newArr = [];
-            newArr.push(result);
-            newArr = _.flatten(newArr);
-            newArr.push(null);
-            result = args[i].apply(this, newArr);
+            newArgs = [];
+            newArgs.push(result);
+            newArgs = _.flatten(newArgs);
+            newArgs.push(null);
+            result = args[i].apply(this, newArgs);
           } else {
             var arg = _args[0];
-            var newArr = newArr = [arg];
-            if (!_.isNull(arg)) newArr.push(null);
-            result = args[i].apply(this, newArr);
+            newArgs = [arg];
+            if (!_.isNull(arg)) newArgs.push(null); // don't push two nulls
+            result = args[i].apply(this, newArgs);
           }
           _args.shift();
         }
