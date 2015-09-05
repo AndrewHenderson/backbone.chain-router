@@ -96,7 +96,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Sometimes, we may want to execute additional routes in the chain which are not meant to be passed route fragment parameters.
+Sometimes, we may want to include additional routes in the chain which are not meant to be passed route fragment parameters.
 
 In this case, we bracket that callback.
 ```js
