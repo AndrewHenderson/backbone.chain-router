@@ -77,7 +77,7 @@ Backbone.Router.extend({
     return ["somestring", {foo: "bar"}, true];
   },
   post: function (id) {
-    console.log('posts.new');
+    console.log('posts.post');
     console.log(arguments); // [id, "somestring", {foo: "bar"}, true, null]
   }
 });
@@ -93,7 +93,7 @@ Backbone.Router.extend({
     console.log(arguments); // [postId, null]
   },
   comment: function (commentId) {
-    console.log('post.comments.comment');
+    console.log('post.comment');
     console.log(arguments); // [commentId, null]
   }
 });
