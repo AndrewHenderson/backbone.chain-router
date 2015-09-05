@@ -45,7 +45,7 @@ Backbone.Router.extend({
 
   edit: function (id) {
     console.log('post.edit');
-    console.log(arguments); // [id, null]
+    console.log(arguments); // [null]
   },
 
   comments: function () {
