@@ -49,7 +49,7 @@
           // this way they are found on the router
           if ( /\[/g.test(name) ) {
             name = name.substring(1, name.length - 1);
-            this[name].braketed = true;
+            this[name].hasBrackets = true;
           }
           return this[name];
         }, this).reverse();
@@ -91,13 +91,13 @@
             newArgs = [arg];
             if (_.isUndefined(newArgs[0])) newArgs = [null];
             if (!_.isNull(newArgs[0])) newArgs.push(null); // don't push two nulls
-            if (args[i].braketed) {
+            if (args[i].hasBrackets) {
               result = args[i].apply(this, [null]);
             } else {
               result = args[i].apply(this, newArgs);
             }
           }
-          if (!args[i].braketed) {
+          if (!args[i].hasBrackets) {
             _args.shift();
           }
         }
