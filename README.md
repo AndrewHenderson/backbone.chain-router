@@ -76,31 +76,31 @@ Backbone.Router.extend({
     console.log(arguments); // [null]
     return ["somestring", {foo: "bar"}, true];
   },
-  post: function (id) {
+  post: function (post_id) {
     console.log('posts.post');
-    console.log(arguments); // [id, "somestring", {foo: "bar"}, true, null]
+    console.log(arguments); // [post_id, "somestring", {foo: "bar"}, true, null]
   }
 });
 ```
-Chained routes with fragment parameters will be passed their assigned parameter.
+Chained routes with fragment parameters will be passed their parameters resepectively.
 ```js
 Backbone.Router.extend({
   routes: {
     'post/:post_id/comment/:comment_id': 'post.comment'
   },
-  post: function (postId) {
+  post: function (post_id) {
     console.log('post');
     console.log(arguments); // [postId, null]
   },
-  comment: function (commentId) {
+  comment: function (comment_id) {
     console.log('post.comment');
     console.log(arguments); // [commentId, null]
   }
 });
 ```
-Sometimes, we may want to execute routes in the order which are not meant to be passed route fragment parameters.
+Sometimes, we may want to execute additional routes in the chain which are not meant to be passed route fragment parameters.
 
-In this case, we bracket the particular callback.
+In this case, we bracket that callback.
 ```js
 Backbone.Router.extend({
   routes: {
