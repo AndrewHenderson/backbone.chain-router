@@ -77,7 +77,8 @@
       return function() {
         var i = start;
         var _args = _.values(arguments);
-        var result = args[start].apply(this, [_args[0], null]);
+        var firstArgs = _args[0] === null ? [null] : [_args[0], null]; // don't pass double null
+        var result = args[start].apply(this, firstArgs);
         var newArgs = _args.shift();
         while (i--) {
           if (result) {
