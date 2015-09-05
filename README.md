@@ -19,12 +19,10 @@ Backbone.Router.extend({
     'posts/new': 'posts.new'
   },
   posts: function () {
-    console.log('posts');
-    console.log(arguments); // [null]
+    console.log('posts'); // called first
   },
   new: function () {
-    console.log('posts.new');
-    console.log(arguments); // [null]
+    console.log('posts.new'); // called second
   }
 });
 ```
