@@ -25,7 +25,7 @@ Backbone.Router.extend({
     'post/:post_id': 'post',
     'post/:post_id/edit': 'post.edit',
     'post/:post_id/comments': 'post.comments',
-    'post/:post_id/comments/:id': 'post.comments.comment'
+    'post/:post_id/comments/:id': 'post.[comments].comment'
   },
 
   posts: function () {
