@@ -54,13 +54,13 @@ new: function () {
 If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the next route's arguments list.
 ```js
 routes: {
-  'posts/:post_id': 'posts.post'
+  'post/:post_id': 'post.after'
 },
-posts: function (post_id) {
+post: function (post_id) {
   console.log(arguments); // [post_id, null]
   return ['somestring', {foo: 'bar'}, true];
 },
-post: function () {
+after: function () {
   console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
 }
 ```
