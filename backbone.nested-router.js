@@ -45,7 +45,13 @@
         // create an array of callback functions
         // must be reversed so routes execute parent then child
         var callbacks = chain.map(function(name, i){
-          return this[chain[i]];
+          // remove any brackets from callback name
+          // this way they are found on the router
+          if ( /\[/g.test(name) ) {
+            name = name.substring(1, name.length - 1);
+            this[name].braketed = true;
+          }
+          return this[name];
         }, this).reverse();
         callback = this.composeNestedRoute.apply(this, callbacks);
       }
@@ -85,13 +91,18 @@
             newArgs = [arg];
             if (_.isUndefined(newArgs[0])) newArgs = [null];
             if (!_.isNull(newArgs[0])) newArgs.push(null); // don't push two nulls
-            result = args[i].apply(this, newArgs);
+            if (args[i].braketed) {
+              result = args[i].apply(this, [null]);
+            } else {
+              result = args[i].apply(this, newArgs);
+            }
           }
-          _args.shift();
+          if (!args[i].braketed) {
+            _args.shift();
+          }
         }
         return result;
       };
     }
-
   });
 }));
