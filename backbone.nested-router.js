@@ -69,7 +69,7 @@
         var result = args[start].apply(this, _.last(_args));
         while (i--) {
           if (result) {
-            _args.splice(0, _.args.length - 1, result);
+            _args.splice(0, _args.length - 1, result);
             _args = _.flatten(_args);
           }
           result = args[i].apply(this, [_args.shift()]);
@@ -77,5 +77,6 @@
         return result;
       };
     }
+
   });
 }));
