@@ -1,0 +1,33 @@
+{
+  "name": "backbone.nested-router",
+  "version": "0.1.0",
+  "homepage": "https://github.com/AndrewHenderson/backbone.nested-router",
+  "authors": [
+    "Andrew Henderson <andrewmhenderson@gmail.com>"
+  ],
+  "description": "Extend Backbone's Router to allow for nested routes.",
+  "keywords": [
+    "backbone",
+    "router",
+    "routing",
+    "url",
+    "uri",
+    "nested",
+    "nesting",
+    "params",
+    "history"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "examples"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.2",
+    "underscore": "~1.8.3"
+  }
+}

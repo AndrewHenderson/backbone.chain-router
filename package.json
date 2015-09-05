@@ -1,0 +1,44 @@
+{
+  "name": "backbone.nested-router",
+  "version": "0.1.0",
+  "description": "Extend Backbone's Router to allow for nested routes.",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AndrewHenderson/backbone.nested-router"
+  },
+  "keywords": [
+    "backbone",
+    "router",
+    "routing",
+    "url",
+    "uri",
+    "nested",
+    "nesting",
+    "params",
+    "history"
+  ],
+  "author": "AndrewHenderson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndrewHenderson/backbone.nested-router/issues"
+  },
+  "homepage": "https://github.com/AndrewHenderson/backbone.nested-router",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.12.1",
+    "load-grunt-tasks": "^0.6.0",
+    "mocha": "^1.21.4"
+  },
+  "dependencies": {
+    "backbone": "~1.2.2",
+    "underscore": "~1.8.3"
+  }
+}
