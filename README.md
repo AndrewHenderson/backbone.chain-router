@@ -29,7 +29,6 @@ If a route returns an argument, the argument will be passed to the route that fo
 ```js
 Backbone.Router.extend({
   routes: {
-    'posts': 'posts',
     'posts/new': 'posts.new'
   },
   posts: function () {
@@ -47,7 +46,6 @@ If a route returns an array of arguments, these arguments will be unpacked and p
 ```js
 Backbone.Router.extend({
   routes: {
-    'posts': 'posts',
     'posts/new': 'posts.new'
   },
   posts: function () {
@@ -65,7 +63,6 @@ If the route that follows is already being passed arguments, say based on the sy
 ```js
 Backbone.Router.extend({
   routes: {
-    'posts': 'posts',
     'posts/:post_id': 'posts.post'
   },
   posts: function () {
@@ -95,7 +92,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Sometimes, we may want to include additional routes in the chain which are not meant to be passed route fragment parameters.
+Sometimes, we may want to include an additional route in the chain which is not intended to be passed route fragment parameters.
 
 In this case, we bracket that callback.
 ```js
@@ -117,10 +114,7 @@ Backbone.Router.extend({
   }
 });
 ```
-#### Worth Mentioning
-
 Because callback chains reference unique methods on the router, two chains containing the same string will execute the same callback.
-
 ```js
 Backbone.Router.extend({
   routes: {
