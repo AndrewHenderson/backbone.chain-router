@@ -1,7 +1,5 @@
-// Backbone.Nested-Router.js
+// Backbone.NestedRouter v0.1.0
 // ----------------------------------
-// v0.1.0
-//
 // (c) 2015 Andrew Henderson
 // Backbone Nested Router may be freely distributed under the MIT license.
 
