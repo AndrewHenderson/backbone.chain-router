@@ -76,7 +76,7 @@ comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
 }
 ```
-Sometimes, we may want to include an additional route in the chain which is not intended to be passed parameters defined in the route fragment.
+Sometimes, we may want to include an additional route in the middle of the chain which is not intended to be passed parameters defined within the route fragment.
 
 In this case, we bracket that callback.
 ```js
