@@ -59,7 +59,7 @@ Backbone.Router.extend({
   }
 });
 ```
-If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the following route's existing arguments list.
+If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the next route's arguments list.
 ```js
 Backbone.Router.extend({
   routes: {
