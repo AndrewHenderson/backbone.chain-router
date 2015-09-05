@@ -82,7 +82,7 @@ Backbone.Router.extend({
   }
 });
 ```
-Chained routes with fragment parameters will be passed their parameters resepectively.
+Chained routes with fragment parameters will be passed their parameters respectively.
 ```js
 Backbone.Router.extend({
   routes: {
