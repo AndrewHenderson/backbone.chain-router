@@ -61,12 +61,12 @@ Backbone.Router.extend({
   routes: {
     'posts/:post_id': 'posts.post'
   },
-  posts: function () {
-    console.log(arguments); // [null]
+  posts: function (post_id) {
+    console.log(arguments); // [post_id, null]
     return ['somestring', {foo: 'bar'}, true];
   },
   post: function (post_id) {
-    console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
+    console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
   }
 });
 ```
