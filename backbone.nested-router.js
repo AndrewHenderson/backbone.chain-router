@@ -71,8 +71,8 @@
       return function() {
         var i = start;
         var _args = _.values(arguments);
-        var result = args[start].apply(this, [null]);
-        var newArgs;
+        var result = args[start].apply(this, [_args[0], null]);
+        var newArgs = _args.shift();
         while (i--) {
           if (result) {
             newArgs = [];
