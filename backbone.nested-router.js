@@ -42,6 +42,8 @@
         name = '';
       } else if (hasNesting) {
         var chain = name.split('.');
+        // create an array of callback functions
+        // must be reversed
         var callbacks = chain.map(function(name, i){
           return this[chain[i]];
         }, this).reverse();
@@ -70,14 +72,15 @@
         var result = args[start].apply(this, [null]);
         while (i--) {
           if (result) {
-            var newArr = [_args[0]];
+            var newArr = [];
             newArr.push(result);
             newArr = _.flatten(newArr);
             newArr.push(null);
             result = args[i].apply(this, newArr);
           } else {
-            var newArr = newArr = [_args[0]];
-            newArr.push(null);
+            var arg = _args[0];
+            var newArr = newArr = [arg];
+            if (!_.isNull(arg)) newArr.push(null);
             result = args[i].apply(this, newArr);
           }
           _args.shift();
