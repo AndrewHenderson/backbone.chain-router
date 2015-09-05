@@ -77,11 +77,24 @@
       return function() {
         var i = start;
         var _args = _.values(arguments);
-        var firstArgs = _args[0] === null ? [null] : [_args[0], null]; // don't pass double null
+        var firstArgs;
+        if (args[start].hasBrackets) {
+          firstArgs = [null];
+        } else {
+          firstArgs = _args[0] === null ? [null] : [_args[0], null]; // don't pass double null
+        }
         var result = args[start].apply(this, firstArgs);
-        var newArgs = _args.shift();
+        var newArgs;
+        if (!args[start].hasBrackets) {
+          newArgs = _args.shift();
+        } else {
+          newArgs = _args;
+        }
         while (i--) {
           if (result) {
+            if (_.isArray(newArgs) && newArgs.length > 1 ) {
+              newArgs = _.initial(newArgs);
+            }
             newArgs = [];
             newArgs.push(result);
             newArgs = _.flatten(newArgs);
