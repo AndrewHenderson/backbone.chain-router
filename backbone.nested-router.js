@@ -70,12 +70,15 @@
         var result = args[start].apply(this, [null]);
         while (i--) {
           if (result) {
-            var newArr = _.values(_args);
-            newArr.splice(1, 0, result);
+            var newArr = [_args[0]];
+            newArr.push(result);
             newArr = _.flatten(newArr);
+            newArr.push(null);
             result = args[i].apply(this, newArr);
           } else {
-            result = args[i].apply(this, _.values(_args).slice(0,1));
+            var newArr = newArr = [_args[0]];
+            newArr.push(null);
+            result = args[i].apply(this, newArr);
           }
           _args.shift();
         }
