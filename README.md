@@ -24,24 +24,23 @@ Backbone.Router.extend({
     'posts/new': 'posts.new',
     'post/:post_id': 'post',
     'post/:post_id/edit': 'post.edit',
-    'post/:post_id/comments': 'comments',
-    'post/:post_id/comments/new': 'post.comments.newcomment'
-    // Using "newcomment" since "new" was already registered as a "posts" callback
+    'post/:post_id/comments': 'post.comments',
+    'post/:post_id/comments/:id': 'post.comments.comment'
   },
 
   posts: function () {
     console.log('posts');
-    console.log(arguments); // [null]
+    console.log(arguments);
   },
 
   new: function () {
-    console.log('post.new');
-    console.log(arguments); // [null]
+    console.log('posts.new');
+    console.log(arguments);
   },
 
-  post: function (id) {
+  post: function () {
     console.log('post');
-    console.log(arguments); // [id, null]
+    console.log(arguments);
   },
 
   edit: function () {
@@ -50,12 +49,12 @@ Backbone.Router.extend({
   },
 
   comments: function () {
-    console.log('comments');
+    console.log('post.comments');
     console.log(arguments);
   },
 
-  newcomment: function () {
-    console.log('post.comments.newcomment');
+  comment: function () {
+    console.log('post.comments.comment');
     console.log(arguments);
   }
 });
