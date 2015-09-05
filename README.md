@@ -46,7 +46,7 @@ Backbone.Router.extend({
   }
 });
 ```
-If a route returns an array of arguments, these arguments will be unpacked and passed as additional paramters at the end of the next route's arguments list.
+If a route returns an array of arguments, these arguments will be unpacked and placed at the end of the next route's arguments list.
 ```js
 Backbone.Router.extend({
   routes: {
