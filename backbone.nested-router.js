@@ -91,12 +91,13 @@
         while (i--) {
           if (result) {
             if (_.isArray(newArgs) && newArgs.length > 1 ) {
-              newArgs = _.initial(newArgs);
+              newArgs = _.rest(newArgs);
+            } else {
+              newArgs = [];
             }
-            newArgs = [];
-            newArgs.push(_.initial(_args), result);
+            newArgs.push(result);
             newArgs = _.flatten(newArgs);
-            newArgs.push(null);
+            if (_.last(newArgs) !== null) newArgs.push(null);
             result = args[i].apply(this, newArgs);
           } else {
             var arg = _args[0];
