@@ -52,6 +52,7 @@ posts: function () {
 new: function () {
   console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
 }
+```
 Chained routes with fragment parameters are passed their parameters respectively.
 ```js
 routes: {
