@@ -1,8 +1,8 @@
-# backbone.nested-router
+# backbone.chain-router
 
 Extend Backbone's Router to allow for nested routes.
 
-### What problem does this library solve?
+### What problem does this middleware solve?
 
 Currently, Backbone's Router does not allow for a route to execute more than one callback.
 
