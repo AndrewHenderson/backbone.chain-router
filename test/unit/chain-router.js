@@ -1,7 +1,7 @@
 define(function(require){
 
-  var Backbone = require('../../bower_components/backbone/backbone');
-  require('../../dist/backbone.chain-router.js');
+  var Backbone = require('backbone');
+  require('chainRouter');
 
   describe('Chain Router', function() {
     beforeEach(function() {
