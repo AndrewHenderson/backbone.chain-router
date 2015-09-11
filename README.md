@@ -1,6 +1,6 @@
 # backbone.chain-router
 
-Extend Backbone's Router to allow for nested routes.
+Extend Backbone's Router to allow for chainable routes.
 
 ### What problem does this middleware solve?
 
