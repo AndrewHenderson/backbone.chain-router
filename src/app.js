@@ -15,5 +15,5 @@ define(function(require){
     }
   });
   var router = new Router();
-  Backbone.history.start();
+  Backbone.history.start({pushState: true});
 });
