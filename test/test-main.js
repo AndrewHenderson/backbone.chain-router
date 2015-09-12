@@ -14,13 +14,13 @@ Object.keys(window.__karma__.files).forEach(function(file) {
 
 require.config({
   // Karma serves files from '/base'
-  baseUrl: '/base/src',
+  baseUrl: '/base',
 
   paths: {
-    jquery: '../bower_components/jquery/dist/jquery',
-    underscore: '../bower_components/underscore/underscore',
-    backbone: '../bower_components/backbone/backbone',
-    chainRouter: '../dist/backbone.chain-router'
+    jquery: 'bower_components/jquery/dist/jquery',
+    underscore: 'bower_components/underscore/underscore',
+    backbone: 'bower_components/backbone/backbone',
+    chainRouter: 'dist/backbone.chain-router'
   },
 
   // dynamically load all test files
