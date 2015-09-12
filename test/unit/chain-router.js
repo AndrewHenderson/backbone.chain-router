@@ -1,37 +1,36 @@
-define(function(require) {
+define(function(require){
 
-  var _ = require('underscore');
   var Backbone = require('backbone');
-  require('chainRouter');
+  var ChainRouter = require('dist/backbone.chain-router');
 
-  describe('Chain Router', function () {
-    beforeEach(function () {
-      var Router = Backbone.Router.extend({
-        routes: {
-          'post/:id': '[posts].post'
-        },
-        posts: function () {
-          console.log(arguments); // [post_id, null]
-        },
-        post: function (post_id) {
-          console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
-        }
+  describe('Chain Router', function(){
+
+    describe('when routing to a matched route with chaining', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({
+          routes: {
+            'post/:id': 'posts.post'
+          },
+          posts: sinon.spy(),
+          post: sinon.spy()
+        });
+        this.router = new Router();
+        Backbone.history.start();
       });
-      this.router = new Router();
-      Backbone.history.start();
-      sinon.spy(this.router, 'posts');
-      sinon.spy(this.router, 'post');
-    });
 
-    describe('when routing to a matched route with nesting', function () {
+      it('should call both routes in order', function(){
+        this.router.navigate('post/15',{trigger: true});
+        expect(this.router.posts).to.have.been.calledOnce;
+        expect(this.router.post).to.have.been.calledOnce;
+      });
 
-      it('should call post with the correct arguments', function() {
-        var self = this;
-        location.hash = 'post/15';
-        _.delay(function(){
-          expect(self.router.posts).to.have.been.calledOnce;
-          expect(self.router.post).to.have.been.calledOnce;
-        }, 1000);
+      afterEach(function(){
+        location.hash = '';
+      });
+
+      after(function(){
+        Backbone.history.stop();
       });
 
       //beforeEach(function() {
