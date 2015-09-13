@@ -87,6 +87,62 @@ define(function(require){
       });
     });
 
+    describe('when executing a chained & bracketed route that returns arguments,', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({
+          routes: {
+            'posts/new': '[posts].new'
+          },
+          posts: function(){
+            return ['somestring', {foo: 'bar'}, true];
+          },
+          new: sinon.spy()
+        });
+        this.router = new Router();
+        sinon.spy(this.router, 'posts');
+        Backbone.history.start();
+        this.router.navigate('posts/new',{trigger: true});
+      });
+
+      it('should pass all arguments to the second route.', function(){
+        assert(this.router.new.calledWith('somestring', {foo: 'bar'}, true));
+      });
+
+      after(function(){
+        this.router.navigate('',{trigger: true});
+        Backbone.history.stop();
+      });
+    });
+
+    describe('when executing a chained & bracketed route that returns arguments,', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({
+          routes: {
+            'posts/:post_id': '[posts].post'
+          },
+          posts: function(){
+            return ['somestring', {foo: 'bar'}, true];
+          },
+          post: sinon.spy()
+        });
+        this.router = new Router();
+        sinon.spy(this.router, 'posts');
+        Backbone.history.start();
+        this.router.navigate('posts/15',{trigger: true});
+      });
+
+      it('should pass all arguments to the second route.', function(){
+        assert(this.router.post.calledWith('15', 'somestring', {foo: 'bar'}, true));
+      });
+
+      after(function(){
+        this.router.navigate('',{trigger: true});
+        Backbone.history.stop();
+      });
+    });
+
     describe('when executing a chained route with multiple parameters,', function(){
 
       before(function(){

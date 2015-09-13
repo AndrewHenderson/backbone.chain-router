@@ -33,25 +33,13 @@
 
     // Overriding route method to account for nested routes
     route: function(route, name, callback) {
-      var hasNesting = name.includes('.');
       if (!_.isRegExp(route)) route = this._routeToRegExp(route);
       if (_.isFunction(name)) {
         callback = name;
         name = '';
-      } else if (hasNesting) {
-        var chain = name.split('.');
-        // create an array of callback functions
-        // must be reversed so routes execute parent then child
-        var callbacks = chain.map(function(name, i){
-          // remove any brackets from callback name
-          // this way they are found on the router
-          if ( /\[/g.test(name) ) {
-            name = name.substring(1, name.length - 1);
-            this[name].hasBrackets = true;
-          }
-          return this[name];
-        }, this).reverse();
-        callback = this.composeNestedRoute.apply(this, callbacks);
+        // Handle chained route
+      } else if (this.isChained(name)) {
+        callback = this.composeChainedRoute(name);
       }
       if (!callback) callback = this[name];
       var router = this;
@@ -66,11 +54,29 @@
       return this;
     },
 
-    // Modification of Underscore's compose
+    isChained: function(name) {
+      return name.includes('.');
+    },
+
+    getCallbacksArray: function(name){
+      var chain = name.split('.');
+      // create an array of callback functions
+      // must be reversed so routes execute parent then child
+      return chain.map(function(name, i){
+        // remove any brackets from callback name
+        // this way they are found on the router
+        if ( /\[/g.test(name) ) {
+          name = name.substring(1, name.length - 1);
+          this[name].hasBrackets = true;
+        }
+        return this[name];
+      }, this).reverse();
+    },
+
+    // Modification of Underscore's compose method
     // (Underscore.js 1.8.3) http://underscorejs.org/#compose
-    composeNestedRoute: function() {
-      // arguments should be an array of callback functions
-      var args = arguments;
+    composeChainedRoute: function(name) {
+      var args = this.getCallbacksArray(name);
       var start = args.length - 1;
       return function() {
         var i = start;
