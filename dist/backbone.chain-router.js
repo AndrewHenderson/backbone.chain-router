@@ -55,22 +55,20 @@
     },
 
     isChained: function(name) {
-      return name.includes('.');
+      return name.indexOf('.') >= 0;
     },
 
     getCallbacksArray: function(name){
       var chain = name.split('.');
-      // create an array of callback functions
-      // must be reversed so routes execute parent then child
       return chain.map(function(name, i){
-        // remove any brackets from callback name
-        // this way they are found on the router
-        if ( /\[/g.test(name) ) {
+        if ( name.indexOf('[') >= 0 ) {
+          // remove any brackets from callback name
+          // so it can be located as a callback on router
           name = name.substring(1, name.length - 1);
-          this[name].hasBrackets = true;
+          this[name].hasBrackets = true; // boolean used when composing route
         }
         return this[name];
-      }, this).reverse();
+      }, this).reverse(); // must be reversed so routes execute left to right
     },
 
     // Modification of Underscore's compose method
@@ -80,40 +78,39 @@
       var start = args.length - 1;
       return function() {
         var i = start;
-        var _args = _.values(arguments);
-        var firstArgs;
-        if (args[start].hasBrackets) {
-          firstArgs = [null];
+        var _args = _.values(arguments); // create a mutatable array
+        var firstArgs = [];
+        if (args[start].hasBrackets || _args[0] === null) {
+          firstArgs.push(null); // Routes with brackets are not passed fragment params. Start at null.
         } else {
-          firstArgs = _args[0] === null ? [null] : [_args[0], null]; // don't pass double null
+          firstArgs.push(_args[0], null); // don't pass double null
         }
-        var result = args[start].apply(this, firstArgs);
-        var newArgs;
-        if (!args[start].hasBrackets) {
-          newArgs = _args.shift();
-        } else {
-          newArgs = _args;
+        var firstRoute = args[start];
+        var result = firstRoute.apply(this, firstArgs);
+        var nextArgs = _args;
+        if (!firstRoute.hasBrackets) {
+          nextArgs.shift(); // Remove first argument from non-bracketed routes
         }
         while (i--) {
           if (result) {
-            if (_.isArray(newArgs) && newArgs.length > 1 ) {
-              newArgs = _.rest(newArgs);
-            } else {
-              newArgs = [];
+            if (_.isNull(nextArgs[0]) || _.isUndefined(nextArgs[0])) {
+              nextArgs = []; // remove null since the result should be at front of arguments
+            } else if (nextArgs.length > 1 && _.last(nextArgs) === null) {
+              nextArgs = _.initial(nextArgs);
             }
-            newArgs.push(result);
-            newArgs = _.flatten(newArgs);
-            if (_.last(newArgs) !== null) newArgs.push(null);
-            result = args[i].apply(this, newArgs);
+            nextArgs.push(result);
+            nextArgs = _.flatten(nextArgs);
+            if (_.last(nextArgs) !== null) nextArgs.push(null);
+            result = args[i].apply(this, nextArgs);
           } else {
             var arg = _args[0];
-            newArgs = [arg];
-            if (_.isUndefined(newArgs[0])) newArgs = [null];
-            if (!_.isNull(newArgs[0])) newArgs.push(null); // don't push two nulls
+            nextArgs = [arg];
+            if (_.isUndefined(nextArgs[0])) nextArgs = [null];
+            if (!_.isNull(nextArgs[0])) nextArgs.push(null); // don't push two nulls
             if (args[i].hasBrackets) {
               result = args[i].apply(this, [null]);
             } else {
-              result = args[i].apply(this, newArgs);
+              result = args[i].apply(this, nextArgs);
             }
           }
           if (!args[i].hasBrackets) {

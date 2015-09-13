@@ -133,7 +133,7 @@ define(function(require){
         this.router.navigate('posts/15',{trigger: true});
       });
 
-      it('should pass all arguments to the second route.', function(){
+      it('should append arguments to the second route\'s parameter.', function(){
         assert(this.router.post.calledWith('15', 'somestring', {foo: 'bar'}, true));
       });
 
