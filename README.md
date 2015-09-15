@@ -51,7 +51,7 @@ new: function () {
   console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
 }
 ```
-If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the next route's arguments list.
+If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument(s) will be placed at the end of the next route's arguments list.
 ```js
 routes: {
   'posts/:post_id': '[posts].post'
