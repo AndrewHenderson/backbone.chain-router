@@ -51,19 +51,6 @@ new: function () {
   console.log(arguments); // ['somestring', {foo: 'bar'}, true, null]
 }
 ```
-If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument(s) will be placed at the end of the next route's arguments list.
-```js
-routes: {
-  'posts/:post_id': '[posts].post'
-},
-posts: function () {
-  console.log(arguments); // [null]
-  return ['somestring', {foo: 'bar'}, true];
-},
-post: function (post_id) {
-  console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
-}
-```
 Chained routes with fragment parameters are passed their parameters respectively.
 ```js
 routes: {
@@ -102,6 +89,19 @@ comments: function () {
 },
 comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
+}
+```
+If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument(s) will be placed at the end of the next route's arguments list.
+```js
+routes: {
+  'posts/:post_id': '[posts].post'
+},
+posts: function () {
+  console.log(arguments); // [null]
+  return ['somestring', {foo: 'bar'}, true];
+},
+post: function (post_id) {
+  console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
 }
 ```
 Because callback chains reference method names on the router, two chains containing the same string will execute the same callback.
