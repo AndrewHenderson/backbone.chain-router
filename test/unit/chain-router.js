@@ -284,5 +284,28 @@ define(function(require){
         Backbone.history.stop();
       });
     });
+
+    describe('when executing a manually defined chained route with two anonymous callbacks,', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({});
+        this.router = new Router();
+        this.router.anonymous1 = sinon.spy();
+        this.router.anonymous2 = sinon.spy();
+        this.router.route('posts/new', 'posts.new', [this.router.anonymous1, this.router.anonymous2]);
+        Backbone.history.start();
+        this.router.navigate('posts/new',{trigger: true});
+      });
+
+      it('should execute each callback once.', function(){
+        expect(this.router.anonymous1).to.have.been.calledOnce;
+        expect(this.router.anonymous2).to.have.been.calledOnce;
+      });
+
+      after(function(){
+        this.router.navigate('',{trigger: true});
+        Backbone.history.stop();
+      });
+    });
   });
 });

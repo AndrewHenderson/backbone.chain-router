@@ -7,7 +7,7 @@ define(function(require){
       'posts/:post_id': '[posts].post'
     },
     posts: function () {
-      console.log(arguments); // [post_id, null]
+      console.log(arguments); // [null]
       return ['somestring', {foo: 'bar'}, true];
     },
     post: function (post_id) {
