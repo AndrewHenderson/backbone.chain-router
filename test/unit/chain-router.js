@@ -22,7 +22,9 @@ define(function(require){
 
       it('should call both routes.', function(){
         expect(this.router.posts).to.have.been.calledOnce;
+        assert(this.router.posts.calledWith(null));
         expect(this.router.new).to.have.been.calledOnce;
+        assert(this.router.new.calledWith(null));
       });
 
       after(function(){
@@ -38,18 +40,18 @@ define(function(require){
           routes: {
             'posts/new': 'posts.new'
           },
-          posts: function(){
+          posts: sinon.spy(function(){
             return 'somestring';
-          },
+          }),
           new: sinon.spy()
         });
         this.router = new Router();
-        sinon.spy(this.router, 'posts');
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should pass the argument to the second route.', function(){
+        assert(this.router.posts.calledWith(null));
         assert(this.router.new.calledWith('somestring'));
       });
 
@@ -66,18 +68,18 @@ define(function(require){
           routes: {
             'posts/new': 'posts.new'
           },
-          posts: function(){
+          posts: sinon.spy(function(){
             return ['somestring', {foo: 'bar'}, true];
-          },
+          }),
           new: sinon.spy()
         });
         this.router = new Router();
-        sinon.spy(this.router, 'posts');
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should pass all arguments to the second route.', function(){
+        assert(this.router.posts.calledWith(null));
         assert(this.router.new.calledWith('somestring', {foo: 'bar'}, true));
       });
 
@@ -94,18 +96,18 @@ define(function(require){
           routes: {
             'posts/new': '[posts].new'
           },
-          posts: function(){
+          posts: sinon.spy(function(){
             return ['somestring', {foo: 'bar'}, true];
-          },
+          }),
           new: sinon.spy()
         });
         this.router = new Router();
-        sinon.spy(this.router, 'posts');
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should pass all arguments to the second route.', function(){
+        assert(this.router.posts.calledWith(null));
         assert(this.router.new.calledWith('somestring', {foo: 'bar'}, true));
       });
 
@@ -122,18 +124,18 @@ define(function(require){
           routes: {
             'posts/:post_id': '[posts].post'
           },
-          posts: function(){
+          posts: sinon.spy(function(){
             return ['somestring', {foo: 'bar'}, true];
-          },
+          }),
           post: sinon.spy()
         });
         this.router = new Router();
-        sinon.spy(this.router, 'posts');
         Backbone.history.start();
         this.router.navigate('posts/15',{trigger: true});
       });
 
-      it('should append arguments to the second route\'s parameter.', function(){
+      it('should append arguments to the second route\'s parameter.', function() {
+        assert(this.router.posts.calledWith(null));
         assert(this.router.post.calledWith('15', 'somestring', {foo: 'bar'}, true));
       });
 
@@ -243,8 +245,11 @@ define(function(require){
 
       it('should execute each route once and shared callback twice.', function(){
         expect(this.router.posts).to.have.been.calledOnce;
+        assert(this.router.posts.calledWith(null));
         expect(this.router.comments).to.have.been.calledOnce;
+        assert(this.router.comments.calledWith(null));
         expect(this.router.new).to.have.been.calledTwice;
+        assert(this.router.new.calledWith(null));
       });
 
       after(function(){
@@ -274,9 +279,13 @@ define(function(require){
 
       it('should execute each route once.', function(){
         expect(this.router.posts).to.have.been.calledOnce;
+        assert(this.router.posts.calledWith(null));
         expect(this.router.newPost).to.have.been.calledOnce;
+        assert(this.router.newPost.calledWith(null));
         expect(this.router.comments).to.have.been.calledOnce;
+        assert(this.router.comments.calledWith(null));
         expect(this.router.newComment).to.have.been.calledOnce;
+        assert(this.router.newComment.calledWith(null));
       });
 
       after(function(){
@@ -290,16 +299,20 @@ define(function(require){
       before(function(){
         var Router = Backbone.Router.extend({});
         this.router = new Router();
-        this.router.callback1 = sinon.spy();
-        this.router.callback2 = sinon.spy();
-        this.router.route('posts/new', 'posts.new', [this.router.callback1, this.router.callback2]);
+        this.callback1 = sinon.spy(function(){
+          return 'somestring';
+        });
+        this.callback2 = sinon.spy();
+        this.router.route('posts/new', 'posts.new', [this.callback1, this.callback2]);
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should execute each callback once.', function(){
-        expect(this.router.callback1).to.have.been.calledOnce;
-        expect(this.router.callback2).to.have.been.calledOnce;
+        expect(this.callback1).to.have.been.calledOnce;
+        assert(this.callback1.calledWith(null));
+        expect(this.callback2).to.have.been.calledOnce;
+        assert(this.callback2.calledWith('somestring'));
       });
 
       after(function(){
@@ -313,16 +326,45 @@ define(function(require){
       before(function(){
         var Router = Backbone.Router.extend({});
         this.router = new Router();
-        this.router.callback1 = sinon.spy();
-        this.router.callback2 = sinon.spy();
-        this.router.route('posts/new', [this.router.callback1, this.router.callback2]);
+        this.callback1 = sinon.spy(function(){
+          return 'somestring';
+        });
+        this.callback2 = sinon.spy();
+        this.router.route('posts/new', [this.callback1, this.callback2]);
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should execute each callback once.', function(){
-        expect(this.router.callback1).to.have.been.calledOnce;
-        expect(this.router.callback2).to.have.been.calledOnce;
+        expect(this.callback1).to.have.been.calledOnce;
+        assert(this.callback1.calledWith(null));
+        expect(this.callback2).to.have.been.calledOnce;
+        assert(this.callback2.calledWith('somestring'));
+      });
+
+      after(function(){
+        this.router.navigate('',{trigger: true});
+        Backbone.history.stop();
+      });
+    });
+
+    describe('when executing a chained & bracketed route that returns arguments,', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({});
+        this.router = new Router();
+        this.postsRoute = sinon.spy(function(){
+          return ['somestring', {foo: 'bar'}, true];
+        });
+        this.newRoute = sinon.spy();
+        this.router.route('posts/:id', '[posts].new', [this.postsRoute, this.newRoute]);
+        Backbone.history.start();
+        this.router.navigate('posts/34',{trigger: true});
+      });
+
+      it('should pass all arguments to the second route.', function(){
+        assert(this.postsRoute.calledWith(null));
+        assert(this.newRoute.calledWith('34', 'somestring', {foo: 'bar'}, true));
       });
 
       after(function(){
