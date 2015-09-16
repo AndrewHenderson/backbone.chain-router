@@ -142,11 +142,12 @@ newComment: function () {
 #### Definine Routes Manually
 
 When defining a route manually, pass the callbacks in an ordered array.
+```js
 var postsCallback = function() {
   console.log('posts');
 };
 var newCallback = function() {
   console.log('new');
 };
-```js
 this.router.route('posts/new', 'posts.new', [postsCallback, newCallback]);
+```
