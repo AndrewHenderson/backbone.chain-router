@@ -39,8 +39,6 @@ new: function () {
 }
 ```
 If a route returns an array of arguments, these arguments will be unpacked and placed at the end of the next route's arguments list.
-
-If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument will be placed at the end of the next route's arguments list.
 ```js
 routes: {
   'posts/new': 'posts.new'
@@ -91,6 +89,19 @@ comments: function () {
 },
 comment: function (comment_id) {
   console.log(arguments); // [comment_id, null]
+}
+```
+If the route that follows is already being passed arguments, say based on the syntax of its corresponding route fragment, the preceding route's returned argument(s) will be placed at the end of the next route's arguments list.
+```js
+routes: {
+  'posts/:post_id': '[posts].post'
+},
+posts: function () {
+  console.log(arguments); // [null]
+  return ['somestring', {foo: 'bar'}, true];
+},
+post: function (post_id) {
+  console.log(arguments); // [post_id, 'somestring', {foo: 'bar'}, true, null]
 }
 ```
 Because callback chains reference method names on the router, two chains containing the same string will execute the same callback.
