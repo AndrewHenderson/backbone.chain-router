@@ -151,3 +151,7 @@ var newCallback = function() {
 };
 this.router.route('posts/new', 'posts.new', [postsCallback, newCallback]);
 ```
+It is not necessary to name the route, so you can also pass the callbacks array as the second argument.
+```js
+this.router.route('posts/new', [postsCallback, newCallback]);
+```

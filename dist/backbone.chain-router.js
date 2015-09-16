@@ -34,11 +34,12 @@
     // Overriding route method to account for nested routes
     route: function(route, name, callback) {
       if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-      if (_.isFunction(name)) {
+      if (_.isFunction(name) || _.isArray(name)) {
         callback = name;
         name = '';
-        // Handle chained route
-      } else if (this.isChained(name)) {
+      }
+      // Handle chained route
+      if (this.isChained(name) || _.isArray(callback)) {
         callback = this.composeChainedRoute(name, callback);
       }
       if (!callback) callback = this[name];

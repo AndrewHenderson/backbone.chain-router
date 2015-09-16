@@ -285,21 +285,44 @@ define(function(require){
       });
     });
 
-    describe('when executing a manually defined chained route with two anonymous callbacks,', function(){
+    describe('when executing a manually defined chained route with two callbacks,', function(){
 
       before(function(){
         var Router = Backbone.Router.extend({});
         this.router = new Router();
-        this.router.anonymous1 = sinon.spy();
-        this.router.anonymous2 = sinon.spy();
-        this.router.route('posts/new', 'posts.new', [this.router.anonymous1, this.router.anonymous2]);
+        this.router.callback1 = sinon.spy();
+        this.router.callback2 = sinon.spy();
+        this.router.route('posts/new', 'posts.new', [this.router.callback1, this.router.callback2]);
         Backbone.history.start();
         this.router.navigate('posts/new',{trigger: true});
       });
 
       it('should execute each callback once.', function(){
-        expect(this.router.anonymous1).to.have.been.calledOnce;
-        expect(this.router.anonymous2).to.have.been.calledOnce;
+        expect(this.router.callback1).to.have.been.calledOnce;
+        expect(this.router.callback2).to.have.been.calledOnce;
+      });
+
+      after(function(){
+        this.router.navigate('',{trigger: true});
+        Backbone.history.stop();
+      });
+    });
+
+    describe('when executing an anonymous manually defined chained route with two callbacks,', function(){
+
+      before(function(){
+        var Router = Backbone.Router.extend({});
+        this.router = new Router();
+        this.router.callback1 = sinon.spy();
+        this.router.callback2 = sinon.spy();
+        this.router.route('posts/new', [this.router.callback1, this.router.callback2]);
+        Backbone.history.start();
+        this.router.navigate('posts/new',{trigger: true});
+      });
+
+      it('should execute each callback once.', function(){
+        expect(this.router.callback1).to.have.been.calledOnce;
+        expect(this.router.callback2).to.have.been.calledOnce;
       });
 
       after(function(){
