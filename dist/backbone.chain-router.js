@@ -39,8 +39,8 @@
         name = '';
       }
       // Handle chained route
-      var routeIsChained = name.indexOf('.') >= 0;
-      if (routeIsChained || _.isArray(callback)) {
+      var routeIsChained = name.indexOf('.') >= 0 || _.isArray(callback);
+      if (routeIsChained) {
         callback = this._composeChainedRoute(name, callback);
       }
       if (!callback) callback = this[name];
@@ -56,33 +56,29 @@
       return this;
     },
 
-    _extractRouteChain: function(name){
+    _extractRouteChain: function(name, callbacks){
       var chain = name.split('.');
-      return chain.map(function(name, i){
-        if ( name.indexOf('[') >= 0 ) {
-          // Remove any brackets from callback name so it can be located as a callback on router.
-          name = name.substring(1, name.length - 1);
-          this[name].hasBrackets = true; // boolean used when composing route
+      if (callbacks) {
+        if (name.indexOf('[') >= 0) {
+          _.each(chain, function (name, i) {
+            callbacks[i].hasBrackets = true; // boolean used when composing route
+          });
         }
-        return this[name];
-      }, this).reverse(); // Must be reversed so routes execute left to right
-    },
-
-    handleCallbacksArg: function(name, callbacks) {
-      var routeHasBrackets = name.indexOf('[') >= 0;
-      if (routeHasBrackets) {
-        var chain = name.split('.');
-        _.each(chain, function (name, i) {
-          callbacks[i].hasBrackets = true; // boolean used when composing route
-        });
+      } else {
+        callbacks = chain.map(function (name, i) {
+          if (name.indexOf('[') >= 0) {
+            // Remove any brackets from callback name so it can be located as a callback on router.
+            name = name.substring(1, name.length - 1);
+            this[name].hasBrackets = true; // boolean used when composing route
+          }
+          return this[name];
+        }, this); // Must be reversed so routes execute left to right
       }
       return callbacks.reverse();
     },
 
-    // Modification of Underscore's compose method
-    // (Underscore.js 1.8.3) http://underscorejs.org/#compose
     _composeChainedRoute: function(name, callbacks) {
-      callbacks = _.isArray(callbacks) ? this.handleCallbacksArg(name, callbacks) : this._extractRouteChain(name);
+      callbacks = this._extractRouteChain(name, callbacks);
       var start = callbacks.length - 1;
       return function() {
         var i = start;
