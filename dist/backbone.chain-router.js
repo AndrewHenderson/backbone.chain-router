@@ -41,8 +41,8 @@
       // Handle chained route
       var routeIsChained = name.indexOf('.') >= 0 || _.isArray(callback);
       if (routeIsChained) {
-        var callbacks = this._extractRouteChain(name, callback);
-        callback = this._composeRouteChain(callbacks);
+        var callbacks = this._extractRoutes(name, callback);
+        callback = this._composeRoute(callbacks);
       }
       if (!callback) callback = this[name];
       var router = this;
@@ -58,7 +58,7 @@
     },
 
     // Returns a reversed array of callbacks, marking those with brackets in the name.
-    _extractRouteChain: function(name, callbacks){
+    _extractRoutes: function(name, callbacks){
       var chain = name.split('.');
       if (callbacks) {
         _.each(chain, function (name, i) {
@@ -82,7 +82,7 @@
     // Similar to Underscore's compose method.
     // Returns a function that is the composition of a list of functions, each
     // consuming the return value of the function that follows.
-    _composeRouteChain: function(callbacks) {
+    _composeRoute: function(callbacks) {
       var start = callbacks.length - 1;
       return function() {
         var i = start;
