@@ -1,7 +1,7 @@
 // Backbone.NestedRouter v0.1.0
 // ----------------------------------
 // (c) 2015 Andrew Henderson
-// Backbone Nested Router may be freely distributed under the MIT license.
+// Backbone Chain Router may be freely distributed under the MIT license.
 
 (function(factory) {
 
@@ -31,7 +31,7 @@
 
   Backbone.Router = Backbone.Router.extend({
 
-    // Overriding route method to account for nested routes
+    // Override route method to add support for chained routes
     route: function(route, name, callback) {
       if (!_.isRegExp(route)) route = this._routeToRegExp(route);
       if (_.isFunction(name) || _.isArray(name)) {
@@ -39,7 +39,8 @@
         name = '';
       }
       // Handle chained route
-      if (this.isChained(name) || _.isArray(callback)) {
+      var routeIsChained = name.indexOf('.') >= 0;
+      if (routeIsChained || _.isArray(callback)) {
         callback = this.composeChainedRoute(name, callback);
       }
       if (!callback) callback = this[name];
@@ -55,11 +56,7 @@
       return this;
     },
 
-    isChained: function(name) {
-      return name.indexOf('.') >= 0;
-    },
-
-    getCallbacksArray: function(name){
+    _extractRouteChain: function(name){
       var chain = name.split('.');
       return chain.map(function(name, i){
         if ( name.indexOf('[') >= 0 ) {
@@ -72,12 +69,11 @@
     },
 
     handleCallbacksArg: function(name, callbacks) {
-      if (name.length && name.indexOf('[') >= 0) {
+      var routeHasBrackets = name.indexOf('[') >= 0;
+      if (routeHasBrackets) {
         var chain = name.split('.');
-        _.each(chain, function(name, i) {
-          if (name.indexOf('[') >= 0) {
-            callbacks[i].hasBrackets = true; // boolean used when composing route
-          }
+        _.each(chain, function (name, i) {
+          callbacks[i].hasBrackets = true; // boolean used when composing route
         });
       }
       return callbacks.reverse();
@@ -86,7 +82,7 @@
     // Modification of Underscore's compose method
     // (Underscore.js 1.8.3) http://underscorejs.org/#compose
     composeChainedRoute: function(name, callbacks) {
-      callbacks = _.isArray(callbacks) ? this.handleCallbacksArg(name, callbacks) : this.getCallbacksArray(name);
+      callbacks = _.isArray(callbacks) ? this.handleCallbacksArg(name, callbacks) : this._extractRouteChain(name);
       var start = callbacks.length - 1;
       return function() {
         var i = start;
