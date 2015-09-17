@@ -1,4 +1,4 @@
-// Backbone.NestedRouter v0.1.0
+// Backbone.NestedRouter v1.0.0
 // ----------------------------------
 // (c) 2015 Andrew Henderson
 // Backbone Chain Router may be freely distributed under the MIT license.
@@ -29,7 +29,7 @@
 
 }(function(root, Backbone, _) {
 
-  Backbone.Router = Backbone.Router.extend({
+  _.extend(Backbone.Router.prototype, {
 
     // Override route method to add support for chained routes
     route: function(route, name, callback) {
@@ -41,7 +41,8 @@
       // Handle chained route
       var routeIsChained = name.indexOf('.') >= 0 || _.isArray(callback);
       if (routeIsChained) {
-        callback = this._composeChainedRoute(name, callback);
+        var callbacks = this._extractRouteChain(name, callback);
+        callback = this._composeRouteChain(callbacks);
       }
       if (!callback) callback = this[name];
       var router = this;
@@ -56,37 +57,41 @@
       return this;
     },
 
+    // Returns a reversed array of callbacks, marking those with brackets in the name.
     _extractRouteChain: function(name, callbacks){
       var chain = name.split('.');
       if (callbacks) {
-        if (name.indexOf('[') >= 0) {
-          _.each(chain, function (name, i) {
-            callbacks[i].hasBrackets = true; // boolean used when composing route
-          });
-        }
+        _.each(chain, function (name, i) {
+          if (name.indexOf('[') >= 0) {
+            callbacks[i].hasBrackets = true; // used later when composing route
+          }
+        });
       } else {
         callbacks = chain.map(function (name, i) {
           if (name.indexOf('[') >= 0) {
-            // Remove any brackets from callback name so it can be located as a callback on router.
+            // Remove brackets from callback name, so it can be located on router.
             name = name.substring(1, name.length - 1);
-            this[name].hasBrackets = true; // boolean used when composing route
+            this[name].hasBrackets = true; // used later when composing route
           }
           return this[name];
-        }, this); // Must be reversed so routes execute left to right
+        }, this);
       }
-      return callbacks.reverse();
+      return callbacks.reverse(); // Reversed so routes execute left to right
     },
 
-    _composeChainedRoute: function(name, callbacks) {
-      callbacks = this._extractRouteChain(name, callbacks);
+    // Similar to Underscore's compose method.
+    // Returns a function that is the composition of a list of functions, each
+    // consuming the return value of the function that follows.
+    _composeRouteChain: function(callbacks) {
       var start = callbacks.length - 1;
       return function() {
         var i = start;
-        var args = _.values(arguments); // Create a mutatable array.
+        var args = _.values(arguments); // Create a mutatable arguments array
         var firstRoute = callbacks[start];
         var firstArgs = [];
         if (firstRoute.hasBrackets || args[0] === null) {
-          firstArgs.push(null); // Routes with brackets are not passed fragment params. Start at null.
+          // Routes with brackets are not passed fragment params. Start at null.
+          firstArgs.push(null);
         } else {
           firstArgs.push(args[0], null); // don't pass double "null"
           args.shift(); // Remove the used argument before calling the next route.
