@@ -101,9 +101,9 @@
         while (i--) {
           var nextRoute = callbacks[i];
           if (result) {
-            // result should be at front of arguments
+            // result should be at front of the nextRoute's arguments
             if (args.length >= 2) {
-              args = _.initial(args); // A route param was passed, use the param, without "null";
+              args = _.initial(args); // Route param was passed. Use the param, omit ending "null"
             } else {
               args.shift(); // Otherwise, start with an empty array.
             }
