@@ -2,11 +2,11 @@
 
 Extend Backbone's Router to allow for chainable routes.
 
-### What problem does this middleware solve?
+### What problem does this plugin solve?
 
 Currently, Backbone's Router does not allow for a route to execute more than one callback.
 
-This middleware let's it do that.
+This plugin let's it do that.
 
 #### Example Usage
 
