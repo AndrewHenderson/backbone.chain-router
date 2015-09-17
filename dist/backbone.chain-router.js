@@ -41,7 +41,7 @@
       // Handle chained route
       var routeIsChained = name.indexOf('.') >= 0;
       if (routeIsChained || _.isArray(callback)) {
-        callback = this.composeChainedRoute(name, callback);
+        callback = this._composeChainedRoute(name, callback);
       }
       if (!callback) callback = this[name];
       var router = this;
@@ -81,7 +81,7 @@
 
     // Modification of Underscore's compose method
     // (Underscore.js 1.8.3) http://underscorejs.org/#compose
-    composeChainedRoute: function(name, callbacks) {
+    _composeChainedRoute: function(name, callbacks) {
       callbacks = _.isArray(callbacks) ? this.handleCallbacksArg(name, callbacks) : this._extractRouteChain(name);
       var start = callbacks.length - 1;
       return function() {
