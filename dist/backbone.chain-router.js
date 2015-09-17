@@ -1,4 +1,4 @@
-// Backbone.NestedRouter v1.0.0
+// Backbone.ChainRouter v1.0.0
 // ----------------------------------
 // (c) 2015 Andrew Henderson
 // Backbone Chain Router may be freely distributed under the MIT license.
