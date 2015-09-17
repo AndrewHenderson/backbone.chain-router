@@ -87,16 +87,16 @@
       return function() {
         var i = start;
         var args = _.values(arguments); // Create a mutatable arguments array
-        var firstRoute = callbacks[start];
-        var firstArgs = [];
-        if (firstRoute.hasBrackets || args[0] === null) {
+        var startRoute = callbacks[start];
+        var startArgs = [];
+        if (startRoute.hasBrackets || args[0] === null) {
           // Routes with brackets are not passed fragment params. Start at null.
-          firstArgs.push(null);
+          startArgs.push(null);
         } else {
-          firstArgs.push(args[0], null); // don't pass double "null"
+          startArgs.push(args[0], null);
           args.shift(); // Remove the used argument before calling the next route.
         }
-        var result = firstRoute.apply(this, firstArgs);
+        var result = startRoute.apply(this, startArgs);
 
         while (i--) {
           var nextRoute = callbacks[i];
