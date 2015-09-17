@@ -57,7 +57,7 @@
       return this;
     },
 
-    // Returns a reversed array of callbacks, marking those with brackets in the name.
+    // Returns a reversed array of callbacks, flagging those with brackets in the name.
     _extractRoutes: function(name, callbacks){
       var chain = name.split('.');
       if (callbacks) {
